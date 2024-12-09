@@ -3,9 +3,17 @@ const myLibrary = [];
 
 // lets us add dynamic numbers to ids so they are one of a kind.
 let count = 0;
-
+// Modal variable to access modal
+let modal = document.getElementById('bookform');
 // Grab the book container so we can append to it and reset it.
 let bookContainer = document.getElementById('books');
+// The variable below will allow us to add an event listener to the add book button
+let addBook = document.getElementById('newBook');
+addBook.addEventListener('click',(e)=>{
+    //Handle the opening of the modal
+    openModal();
+    return 'Modal Opened';
+})
 
 // The constructor function for a book object
 function Book(title,author,pages,read){
@@ -41,10 +49,10 @@ function HtmlBook(object){
     readDiv.setAttribute('id',`read${count}`);
     // Assigns text values to the divs that need it
     deleteButton.textContent = 'X';
-    titleDiv.textContent = object.title;
-    authorDiv.textContent = object.author;
-    pagesDiv.textContent = object.pages;
-    readDiv.textContent = object.read;
+    titleDiv.textContent = `Title: ${object.title}`;
+    authorDiv.textContent = `Author: ${object.author}`;
+    pagesDiv.textContent = `Pages: ${object.pages}`;
+    readDiv.textContent = `Read: ${object.read}`;
     // Adds event listener for deletion
     deleteButton.addEventListener('click',(e)=>{
         deleteBook(e.target);
@@ -82,6 +90,10 @@ function handleForm(){
     // Will handle all the data in the form and pass it on properly.
 }
 
+function checkFormData(){
+    console.log('checking form data');
+}
+
 // This function handles reseting the html on the page
 function resetBooks(){
     bookContainer.textContent = '';
@@ -98,3 +110,28 @@ function deleteBook(event){
     updateBooks(myLibrary);
     return 'Library Updated!';
 }
+
+// The function below will handle opening the modal
+function openModal(){
+    modal.style.display = 'flex';
+    // The variable below will add an event listener to the close on the X to close the modal
+    let modalClose = document.getElementById('cancelAdd');
+    modalClose.addEventListener('click', (e)=>{
+    closeModal();
+    return 'Modal Closed';
+    })
+    // The variable below will handle the form submission by adding an event listener to the submit button.
+    let formSub = document.getElementById('submit');
+    formSub.addEventListener('click', (e)=>{
+        e.preventDefault();
+        checkFormData();
+    })
+    return;
+}
+// This function handles closing the modal
+function closeModal(){
+   modal.style.display = 'none';
+   return; 
+}
+
+addBookToLibrary('The Hobbit','JRR Tolkien','453','True');

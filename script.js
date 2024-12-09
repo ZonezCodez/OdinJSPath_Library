@@ -60,13 +60,14 @@ function HtmlBook(object){
     // Increase Count Var
     count++;
 }
-
+// This function adds a book to the library.
 function addBookToLibrary(t,a,p,r){
     let book = new Book(t,a,p,r);
     myLibrary.push(book);
-    return updateBooks(myLibrary);
+    updateBooks(myLibrary);
+    return 'Book added to library!';
 }
-
+// Function handles updating the screen of books by using the array to loop and display books.
 function updateBooks(array){
     // Reset the books area so we can create it properly and avoid dups
     resetBooks();
@@ -97,7 +98,3 @@ function deleteBook(event){
     updateBooks(myLibrary);
     return 'Library Updated!';
 }
-
-addBookToLibrary('t','a','p','r');
-addBookToLibrary('t','v','a','z');
-addBookToLibrary('The Hobbit','JRR Tolkien','258','Yes');

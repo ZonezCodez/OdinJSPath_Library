@@ -13,6 +13,22 @@ addBook.addEventListener('click',(e)=>{
     //Handle the opening of the modal
     openModal();
     return 'Modal Opened';
+}) 
+// The variable below will handle the form submission by adding an event listener to the submit button.
+let formSub = document.getElementById('myForm');
+formSub.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    let formData = new FormData(formSub);
+    // pull the data we need from form to sen to function to check
+    let bookObj = {
+        title: formData.get('booktitle'),
+        author: formData.get('bookauthor'),
+        pages: formData.get('bookpages'),
+        read: formData.get('read')
+    }
+    checkFormData(bookObj);
+    clearForm(formSub);
+    closeModal(); 
 })
 
 // The constructor function for a book object
@@ -90,10 +106,8 @@ function handleForm(obj){
     // Will handle all the data in the form object.
     if(obj.read === null){
         addBookToLibrary(obj.title,obj.author,obj.pages,'Not Read');
-        return;
     }else if(obj.read === 'on'){
         addBookToLibrary(obj.title,obj.author,obj.pages,'Read This Book');
-        return;
     }
 }
 
@@ -126,49 +140,19 @@ function openModal(){
     // The variable below will add an event listener to the close on the X to close the modal
     let modalClose = document.getElementById('cancelAdd');
     modalClose.addEventListener('click', (e)=>{
-    closeModal();
+    closeModal(formSub);
     return 'Modal Closed';
     })
-    // The variable below will handle the form submission by adding an event listener to the submit button.
-    let formSub = document.getElementById('myForm');
-    formSub.addEventListener('submit', (e)=>{
-        e.preventDefault();
-        const formData = new FormData(formSub);
-        // pull the data we need from form to sen to function to check
-        const bookObj = {
-            title: formData.get('booktitle'),
-            author: formData.get('bookauthor'),
-            pages: formData.get('bookpages'),
-            read: formData.get('read')
-        }
-        // Checks title to make sure isnt a duplicate
-        if(myLibrary.length > 0){
-            myLibrary.forEach(book => {
-                if(book.title === bookObj.title){
-                    clearForm(formSub);
-                    return 'Duplicate Book'
-                }
-            })
-        }else{
-            checkFormData(bookObj);
-            clearForm(formSub);
-            closeModal();
-            return;  
-        }
-        
-    })
-    return;
 }
 
 // This function handles closing the modal
 function closeModal(){
-   modal.style.display = 'none';
-   return; 
+    modal.style.display = 'none';
+    return; 
 }
 
 // This function handles clearing the form 
 function clearForm(form){
-    console.log(form);
     form.reset();
     return 'Form Reset'
 }

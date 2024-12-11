@@ -23,15 +23,15 @@
     </div>
     <div class="formHold">
         <div class="bookForm" id="bookform">
-            <form action="submit">
+            <form action="submit" id="myForm">
                 <span class="cancelAdd" id="cancelAdd">X</span>
                 <h3>Add Book</h3>
                 <label for="booktitle">Title: </label>
-                <input type="text" name="booktitle" id="booktitle">
+                <input type="text" name="booktitle" id="booktitle" required>
                 <label for="bookauthor">Author: </label>
-                <input type="text" name="bookauthor" id="bookauthor">
+                <input type="text" name="bookauthor" id="bookauthor" required>
                 <label for="bookpages">Pages: </label>
-                <input type="text" name="bookpages" id="bookpages">
+                <input type="text" name="bookpages" id="bookpages" required>
                 <div class="insideread">
                     <label for="read">Read: </label>
                     <input type="checkbox" name="read" id="read">

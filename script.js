@@ -90,8 +90,8 @@ function handleForm(){
     // Will handle all the data in the form and pass it on properly.
 }
 
-function checkFormData(){
-    console.log('checking form data');
+function checkFormData(obj){
+    console.log(obj);
 }
 
 // This function handles reseting the html on the page
@@ -123,15 +123,31 @@ function openModal(){
     return 'Modal Closed';
     })
     // The variable below will handle the form submission by adding an event listener to the submit button.
-    let formSub = document.getElementById('submit');
-    formSub.addEventListener('click', (e)=>{
+    let formSub = document.getElementById('myForm');
+    formSub.addEventListener('submit', (e)=>{
         e.preventDefault();
-        checkFormData();
+        const formData = new FormData(formSub);
+        // pull the data we need from form to sen to function to check
+        const bookObj = {
+            title: formData.get('booktitle'),
+            author: formData.get('bookauthor'),
+            pages: formData.get('bookpages'),
+            read: formData.get('read')
+        }
+        checkFormData(bookObj);
+        clearForm(formData);
+        closeModal();
     })
     return;
 }
+
 // This function handles closing the modal
 function closeModal(){
    modal.style.display = 'none';
    return; 
+}
+
+// This function handles clearing the form 
+function clearForm(form){
+    console.log(form);
 }

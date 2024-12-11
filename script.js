@@ -4,7 +4,7 @@ let myLibrary = [];
 // lets us add dynamic numbers to ids so they are one of a kind.
 let count = 0;
 // Modal variable to access modal
-let modal = document.getElementById('bookform');
+let modal = document.getElementById('bookBox');
 // Grab the book container so we can append to it and reset it.
 let bookContainer = document.getElementById('books');
 // The variable below will allow us to add an event listener to the add book button
@@ -86,12 +86,19 @@ function updateBooks(array){
     });
 }
 
-function handleForm(){
-    // Will handle all the data in the form and pass it on properly.
+function handleForm(obj){
+    // Will handle all the data in the form object.
+    if(obj.read === null){
+        addBookToLibrary(obj.title,obj.author,obj.pages,'Not Read');
+        return;
+    }else if(obj.read === 'on'){
+        addBookToLibrary(obj.title,obj.author,obj.pages,'Read This Book');
+        return;
+    }
 }
 
 function checkFormData(obj){
-    console.log(obj);
+    return handleForm(obj);
 }
 
 // This function handles reseting the html on the page
@@ -134,9 +141,21 @@ function openModal(){
             pages: formData.get('bookpages'),
             read: formData.get('read')
         }
-        checkFormData(bookObj);
-        clearForm(formData);
-        closeModal();
+        // Checks title to make sure isnt a duplicate
+        if(myLibrary.length > 0){
+            myLibrary.forEach(book => {
+                if(book.title === bookObj.title){
+                    clearForm(formSub);
+                    return 'Duplicate Book'
+                }
+            })
+        }else{
+            checkFormData(bookObj);
+            clearForm(formSub);
+            closeModal();
+            return;  
+        }
+        
     })
     return;
 }
@@ -150,4 +169,6 @@ function closeModal(){
 // This function handles clearing the form 
 function clearForm(form){
     console.log(form);
+    form.reset();
+    return 'Form Reset'
 }

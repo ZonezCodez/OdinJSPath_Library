@@ -14,15 +14,14 @@ body {
 .container {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
     height: fit-content;
     width: fit-content;
     border: 1px solid black;
     padding: 10px 20px 20px 20px;
-    border-radius: 10px;
-    margin-top: 2.7%;
-    margin-left: 1.9%;
+    border-radius: 5px;
+    margin-top: 1%;
     background-color: aliceblue;
+    margin-right: 1%;
 }
 
 .delete {
@@ -30,25 +29,26 @@ body {
     padding: 3px;
     cursor: pointer;
     align-self: end;
+    font-size: 16px;
+    color: red;
 }
 
 .inside {
-    height:50%;
+    height:100%;
     width: 100%;
-    display: flex;
-    justify-content: center;
     background-color: black;
 }
 
 .bookBox {
     border: 1px solid black;
-    height: 75%;
-    margin-top: 1%;
-    width: 90%;
-    border-radius: 10px;
+    height: 620px;
+    width: 100%;
     background-color: black;
     display: flex;
+    justify-content: start;
     flex-wrap: wrap;
+    padding: 1%;
+    overflow-y: scroll;
 }
 
 /*  The CSS below handles the title box */
@@ -89,19 +89,23 @@ body {
     width: 100vw;
     background-color: black;
     color: aliceblue;
-    border-radius: 10px 10px 0 0;
 }
 
 /* The CSS below controls the formatting for the add book modal */
 .formHold {
     width: 100vw;
     height: 100vh;
-    display: flex;
+    background-color: black;
+}
+
+#bookBox {
+    display: none;
     justify-content: center;
+    position: absolute;
+    top: 0;
 }
 
 #bookform {
-    display: none;
     height:fit-content;
     width:fit-content;
     position: absolute;

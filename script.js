@@ -1,5 +1,5 @@
 // The array that the book objects will be stored in and acted upon
-const myLibrary = [];
+let myLibrary = [];
 
 // lets us add dynamic numbers to ids so they are one of a kind.
 let count = 0;
@@ -106,7 +106,9 @@ function deleteBook(event){
     let currId = event.id;
     let position = parseInt(currId.slice(-1));
     delete myLibrary[position];
-    myLibrary.shift();
+    console.log(myLibrary)
+    myLibrary = myLibrary.filter(book => book !== undefined && book !== null);
+    console.log(myLibrary)
     updateBooks(myLibrary);
     return 'Library Updated!';
 }
@@ -133,5 +135,3 @@ function closeModal(){
    modal.style.display = 'none';
    return; 
 }
-
-addBookToLibrary('The Hobbit','JRR Tolkien','453','True');

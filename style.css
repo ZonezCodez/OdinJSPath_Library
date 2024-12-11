@@ -7,32 +7,33 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    background-color: black;
 }
 
 /* This CSS controls the book box that shows tbhe book cards */
 .container {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    height: 200px;
-    width: 200px;
+    justify-content: space-evenly;
+    height: fit-content;
+    width: fit-content;
     border: 1px solid black;
-    padding: 10px 0 10px 30px;
+    padding: 10px 20px 20px 20px;
     border-radius: 10px;
     margin-top: 2.7%;
     margin-left: 1.9%;
+    background-color: aliceblue;
 }
 
 .delete {
     width: fit-content;
     padding: 3px;
-    margin-right: 10px;
     cursor: pointer;
     align-self: end;
 }
 
 .inside {
-    height: 100%;
+    height:50%;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -41,11 +42,11 @@ body {
 
 .bookBox {
     border: 1px solid black;
-    height: 50%;
-    margin-top: 1.5%;
-    width: 97%;
+    height: 75%;
+    margin-top: 1%;
+    width: 90%;
     border-radius: 10px;
-    background-color: aliceblue;
+    background-color: black;
     display: flex;
     flex-wrap: wrap;
 }
@@ -92,15 +93,28 @@ body {
 }
 
 /* The CSS below controls the formatting for the add book modal */
+.formHold {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+
 #bookform {
     display: none;
     height:fit-content;
     width:fit-content;
     position: absolute;
-    padding: 40px;
+    z-index: 3;
+    bottom: 25vh;
+    padding: 30px;
     border: 1px solid black;
-    bottom: 25%;
     border-radius: 10px;
+    background-color: aliceblue;
+}
+
+.title,.author,.pages,.read {
+    margin-top: 15px;
 }
 
 .cancelAdd {

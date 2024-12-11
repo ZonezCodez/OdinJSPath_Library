@@ -74,6 +74,11 @@ function HtmlBook(object){
         deleteBook(e.target);
         return;
     })
+    // Add event listener to change read status
+    readDiv.addEventListener('click',(e)=>{
+        changeRead(readDiv);
+        return;
+    });
     // Appends everything to the card and then to the page
     container.append(deleteButton);
     container.append(titleDiv);
@@ -84,6 +89,15 @@ function HtmlBook(object){
     // Increase Count Var
     count++;
 }
+// This function will change the read status
+function changeRead(root){
+    if(root.textContent == 'Read: Read This Book'){
+        return root.textContent = 'Read: Not Read';
+    }else{
+        return root.textContent = 'Read: Read This Book' 
+    }
+}
+
 // This function adds a book to the library.
 function addBookToLibrary(t,a,p,r){
     let book = new Book(t,a,p,r);

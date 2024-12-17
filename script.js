@@ -1,172 +1,107 @@
-// The array that the book objects will be stored in and acted upon
-let myLibrary = [];
+// Global Variables necessary for the project
 
-// lets us add dynamic numbers to ids so they are one of a kind.
-let count = 0;
-// Modal variable to access modal
-let modal = document.getElementById('bookBox');
-// Grab the book container so we can append to it and reset it.
-let bookContainer = document.getElementById('books');
-// The variable below will allow us to add an event listener to the add book button
-let addBook = document.getElementById('newBook');
-addBook.addEventListener('click',(e)=>{
-    //Handle the opening of the modal
-    openModal();
-    return 'Modal Opened';
-}) 
-// The variable below will handle the form submission by adding an event listener to the submit button.
-let formSub = document.getElementById('myForm');
-formSub.addEventListener('submit', (e)=>{
-    e.preventDefault();
-    let formData = new FormData(formSub);
-    // pull the data we need from form to sen to function to check
-    let bookObj = {
-        title: formData.get('booktitle'),
-        author: formData.get('bookauthor'),
-        pages: formData.get('bookpages'),
-        read: formData.get('read')
+class Book {
+    // Constructor
+    constructor(title,author,pages,read){
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read;
     }
-    checkFormData(bookObj);
-    clearForm(formSub);
-    closeModal(); 
-})
+    // Class Instances or variables
+}
 
-// The constructor function for a book object
-function Book(title,author,pages,read){
-    return {
-        title: title,
-        author: author,
-        pages: pages,
-        read: read
+class myLibrary {
+    //Constructor can receieve an array of books or will just initiate as a base array.
+    constructor(arrayofBooks){
+        arrayofBooks ? this.library = arrayofBooks : this.library = [];
+        this.size = this.library.length;
+        this.count = 0;
+        this.bookContainer = document.getElementById('books');
     }
-}
-// The function that makes the html version of each book object
-function HtmlBook(object){
-    // Create divs for card and card objects
-    let container = document.createElement('div');
-    let deleteButton = document.createElement('div');
-    let titleDiv = document.createElement('div');
-    let authorDiv = document.createElement('div');
-    let pagesDiv = document.createElement('div');
-    let readDiv = document.createElement('div');
-    // Assign classnames for styling purposes
-    container.classList.add('container');
-    deleteButton.classList.add('delete');
-    titleDiv.classList.add('title');
-    authorDiv.classList.add('author');
-    pagesDiv.classList.add('pages');
-    readDiv.classList.add('read');
-    // Assign Ids to grab the elements with JS
-    container.setAttribute('id',`container${count}`);
-    deleteButton.setAttribute('id',`delete${count}`);
-    titleDiv.setAttribute('id',`title${count}`);
-    authorDiv.setAttribute('id',`author${count}`);
-    pagesDiv.setAttribute('id',`pages${count}`);
-    readDiv.setAttribute('id',`read${count}`);
-    // Assigns text values to the divs that need it
-    deleteButton.textContent = 'X';
-    titleDiv.textContent = `Title: ${object.title}`;
-    authorDiv.textContent = `Author: ${object.author}`;
-    pagesDiv.textContent = `Pages: ${object.pages}`;
-    readDiv.textContent = `Read: ${object.read}`;
-    // Adds event listener for deletion
-    deleteButton.addEventListener('click',(e)=>{
-        deleteBook(e.target);
-        return;
-    })
-    // Add event listener to change read status
-    readDiv.addEventListener('click',(e)=>{
-        changeRead(readDiv);
-        return;
-    });
-    // Appends everything to the card and then to the page
-    container.append(deleteButton);
-    container.append(titleDiv);
-    container.append(authorDiv);
-    container.append(pagesDiv);
-    container.append(readDiv);
-    bookContainer.append(container);
-    // Increase Count Var
-    count++;
-}
-// This function will change the read status
-function changeRead(root){
-    if(root.textContent == 'Read: Read This Book'){
-        return root.textContent = 'Read: Not Read';
-    }else{
-        return root.textContent = 'Read: Read This Book' 
+        // Methods which are class functions
+        newBook(t,a,p,r){
+            let book = new Book(t,a,p,r);
+            this.library.push(book);
+            this.count++;
+            this.size = this.library.length;
+            this.renderBooks();
+        }
+        // Method that renders books to the ui
+        renderBooks() {
+            this.resetBooks();
+            for(let i = 0; i < this.library.length;i++){
+                let position = this.library[i];
+                let title = position.title;
+                let author = position.author;
+                let pages = position.pages;
+                let read = position.read;
+                this.htmlBook({title,author,pages,read});
+            }   
+        }
+        // Method to create a book and push it to the screen
+        htmlBook(object){
+            // Create divs for card and card objects
+            let container = document.createElement('div');
+            let deleteButton = document.createElement('div');
+            let titleDiv = document.createElement('div');
+            let authorDiv = document.createElement('div');
+            let pagesDiv = document.createElement('div');
+            let readDiv = document.createElement('div');
+            // Assign classnames for styling purposes
+            container.classList.add('container');
+            deleteButton.classList.add('delete');
+            titleDiv.classList.add('title');
+            authorDiv.classList.add('author');
+            pagesDiv.classList.add('pages');
+            readDiv.classList.add('read');
+            // Assign Ids to grab the elements with JS
+            container.setAttribute('id',`container${this.count}`);
+            deleteButton.setAttribute('id',`delete${this.count}`);
+            titleDiv.setAttribute('id',`title${this.count}`);
+            authorDiv.setAttribute('id',`author${this.count}`);
+            pagesDiv.setAttribute('id',`pages${this.count}`);
+            readDiv.setAttribute('id',`read${this.count}`);
+            // Assigns text values to the divs that need it
+            deleteButton.textContent = 'X';
+            titleDiv.textContent = `Title: ${object.title}`;
+            authorDiv.textContent = `Author: ${object.author}`;
+            pagesDiv.textContent = `Pages: ${object.pages}`;
+            readDiv.textContent = `Read: ${object.read}`;
+            // Adds event listener for deletion
+            deleteButton.addEventListener('click',(e)=>{
+                this.deleteBook(e.target);
+                return;
+            })
+            // Add event listener to change read status
+            readDiv.addEventListener('click',(e)=>{
+                
+            });
+            // Appends everything to the card and then to the page
+            container.append(deleteButton);
+            container.append(titleDiv);
+            container.append(authorDiv);
+            container.append(pagesDiv);
+            container.append(readDiv);
+            this.bookContainer.append(container);
+        }
+        //Method for deleting book
+        deleteBook(event){
+            let currId = event.id;
+            let position = parseInt(currId.slice(-1));
+            delete this.library[position];
+            this.library = this.library.filter(book => book !== undefined && book !== null);
+            this.renderBooks();
+            return 'Library Updated!';
+        }
+        // Method for resetting thos books on the screen 
+        resetBooks(){
+            this.bookContainer.textContent = '';
+            this.count = 0;
+            return;
+        }
+
     }
-}
 
-// This function adds a book to the library.
-function addBookToLibrary(t,a,p,r){
-    let book = new Book(t,a,p,r);
-    myLibrary.push(book);
-    updateBooks(myLibrary);
-    return 'Book added to library!';
-}
-// Function handles updating the screen of books by using the array to loop and display books.
-function updateBooks(array){
-    // Reset the books area so we can create it properly and avoid dups
-    resetBooks();
-    array.forEach(book => {
-        // this is where you make each card and then append to the page to show what books are in the library
-        HtmlBook(book);
-        return;
-    });
-}
-
-function handleForm(obj){
-    // Will handle all the data in the form object.
-    if(obj.read === null){
-        addBookToLibrary(obj.title,obj.author,obj.pages,'Not Read');
-    }else if(obj.read === 'on'){
-        addBookToLibrary(obj.title,obj.author,obj.pages,'Read This Book');
-    }
-}
-
-function checkFormData(obj){
-    return handleForm(obj);
-}
-
-// This function handles reseting the html on the page
-function resetBooks(){
-    bookContainer.textContent = '';
-    count = 0;
-    return;
-}
-
-// This function deletes the book.
-function deleteBook(event){
-    let currId = event.id;
-    let position = parseInt(currId.slice(-1));
-    delete myLibrary[position];
-    console.log(myLibrary)
-    myLibrary = myLibrary.filter(book => book !== undefined && book !== null);
-    console.log(myLibrary)
-    updateBooks(myLibrary);
-    return 'Library Updated!';
-}
-
-// The function below will handle opening the modal
-function openModal(){
-    modal.style.display = 'flex';
-    // The variable below will add an event listener to the close on the X to close the modal
-    let modalClose = document.getElementById('cancelAdd');
-    modalClose.addEventListener('click', (e)=>{
-    closeModal(formSub);
-    return 'Modal Closed';
-    })
-}
-
-// This function handles closing the modal
-function closeModal(){
-    modal.style.display = 'none';
-    return; 
-}
-
-// This function handles clearing the form 
-function clearForm(form){
-    form.reset();
-    return 'Form Reset'
-}
+    let MYBRARY = new myLibrary();
+    MYBRARY.newBook('The Hobbit','JRR Tolkien','243','Read this book');

@@ -97,7 +97,8 @@ class myLibrary {
             })
             // Add event listener to change read status
             readDiv.addEventListener('click',(e)=>{
-                
+                this.changeRead(e.target);
+                return;
             });
             // Appends everything to the card and then to the page
             container.append(deleteButton);
@@ -174,5 +175,15 @@ class myLibrary {
             let form = document.getElementById('myForm');
             form.reset();
             return;
+        }
+        // Method to change the read status
+        changeRead(T){
+            if(T.textContent === 'Read: Read this Book'){
+                T.textContent = 'Read: Not Read';
+                return;
+            }else if(T.textContent === 'Read: Not Read'){
+                T.textContent = 'Read: Read this Book';
+                return;
+            }
         }
     }

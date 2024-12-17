@@ -1,4 +1,22 @@
 // Global Variables necessary for the project
+const nB = document.getElementById('newBook');
+let libraries = 0;
+let LIBRARY;
+
+// Event Listener added to button to know how many libraries and if their is one how to act upon it
+nB.addEventListener('click',(e)=>{
+    if(libraries === 0){
+        libraries++;
+        LIBRARY = new myLibrary();
+        LIBRARY.openModal();
+        return;
+    }else if(libraries > 0){
+        LIBRARY.openModal();
+        return;
+    }else{
+        return;
+    }
+})
 
 class Book {
     // Constructor
@@ -18,8 +36,10 @@ class myLibrary {
         this.size = this.library.length;
         this.count = 0;
         this.bookContainer = document.getElementById('books');
+        this.modal = document.getElementById('bookBox');
+        this.modalClose = document.getElementById('cancelAdd');
     }
-        // Methods which are class functions
+        // Methods that adds a new book it takes 4 strings t = titleString a = authorString p = pagesString and the r has to be the string Read this Book or Not Read or else it wont work.
         newBook(t,a,p,r){
             let book = new Book(t,a,p,r);
             this.library.push(book);
@@ -27,7 +47,7 @@ class myLibrary {
             this.size = this.library.length;
             this.renderBooks();
         }
-        // Method that renders books to the ui
+        // Method that renders books to the screen
         renderBooks() {
             this.resetBooks();
             for(let i = 0; i < this.library.length;i++){
@@ -84,6 +104,7 @@ class myLibrary {
             container.append(pagesDiv);
             container.append(readDiv);
             this.bookContainer.append(container);
+            this.count++;
         }
         //Method for deleting book
         deleteBook(event){
@@ -94,14 +115,30 @@ class myLibrary {
             this.renderBooks();
             return 'Library Updated!';
         }
-        // Method for resetting thos books on the screen 
+        // Method for resetting the books on the screen 
         resetBooks(){
             this.bookContainer.textContent = '';
             this.count = 0;
             return;
         }
-
+        // Method for opening the modal to add books
+        openModal(){
+            this.modal.style.display = 'flex';
+            // The variable below will add an event listener to the close on the X to close the modal
+            this.modalClose.addEventListener('click',this.closeModal);
+            return;
+        }
+        // Method will handle closing the modal
+        closeModal(){
+            let modal = document.getElementById('bookBox');
+            let modalClose = document.getElementById('cancelAdd');
+            modal.style.display = 'none';
+            modalClose.removeEventListener('click',this.closeModal);
+            return; 
+        }
     }
 
     let MYBRARY = new myLibrary();
+    MYBRARY.newBook('The Hobbit','JRR Tolkien','243','Read this book');
+    MYBRARY.newBook('The Hobbit','JRR Tolkien','243','Read this book');
     MYBRARY.newBook('The Hobbit','JRR Tolkien','243','Read this book');

@@ -26,7 +26,7 @@ class Book {
         this.pages = pages;
         this.read = read;
     }
-    // Class Instances or variables
+    // Methods go down below this!
 }
 
 class myLibrary {
@@ -38,6 +38,8 @@ class myLibrary {
         this.bookContainer = document.getElementById('books');
         this.modal = document.getElementById('bookBox');
         this.modalClose = document.getElementById('cancelAdd');
+        this.formSub = document.getElementById('myForm');
+        this.submissions = 0;
     }
         // Methods that adds a new book it takes 4 strings t = titleString a = authorString p = pagesString and the r has to be the string Read this Book or Not Read or else it wont work.
         newBook(t,a,p,r){
@@ -126,19 +128,51 @@ class myLibrary {
             this.modal.style.display = 'flex';
             // The variable below will add an event listener to the close on the X to close the modal
             this.modalClose.addEventListener('click',this.closeModal);
+
+            if(this.submissions === 0){
+                this.formSub.addEventListener('submit',(e)=>{
+                    e.preventDefault();
+                    this.submitForm(this);
+                });
+                this.submissions++;
+            }else if(this.submissions > 0){
+                return;
+            }
             return;
         }
         // Method will handle closing the modal
         closeModal(){
+            LIBRARY.resetForm();
             let modal = document.getElementById('bookBox');
             let modalClose = document.getElementById('cancelAdd');
             modal.style.display = 'none';
             modalClose.removeEventListener('click',this.closeModal);
             return; 
         }
-    }
+        // Method to handle form submission for a new book
+        submitForm(){
+            let formSub = document.getElementById('myForm');
+            let formData = new FormData(formSub);
+            console.log(formData);
+            let title = formData.get('booktitle');
+            let author = formData.get('bookauthor');
+            let pages = formData.get('bookpages');
+            let read;
 
-    let MYBRARY = new myLibrary();
-    MYBRARY.newBook('The Hobbit','JRR Tolkien','243','Read this book');
-    MYBRARY.newBook('The Hobbit','JRR Tolkien','243','Read this book');
-    MYBRARY.newBook('The Hobbit','JRR Tolkien','243','Read this book');
+            if(formData.get('read') === 'on'){
+                read = 'Read this Book';
+            }else if(formData.get('read') === null){
+                read = 'Not Read'
+            }
+
+            this.newBook(title,author,pages,read);
+            this.resetForm();
+            this.closeModal();
+        }
+        // Method for resetting the form data after adding a new book
+        resetForm(){
+            let form = document.getElementById('myForm');
+            form.reset();
+            return;
+        }
+    }
